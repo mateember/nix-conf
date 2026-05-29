@@ -2,7 +2,7 @@
   description = "My NixOS flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     nmrs.url = "github:networkmanager-rs/nmrs-gui";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -12,7 +12,7 @@
     nur.url = "github:nix-community/NUR";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     home-manager = {
-      #url = "github:nix-community/home-manager/release-25.11";
+      #url = "github:nix-community/home-manager/release-26.05";
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
