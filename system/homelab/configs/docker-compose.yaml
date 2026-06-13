@@ -51,22 +51,10 @@ services:
     ports:
       - "8888:8080"
     volumes:
-      - /home/mate/dotfiles/NixOS/system/homelab/configs/dashy_conf.yml:/app/user-data/conf.yml
+      - /home/mate/Nix/system/homelab/configs/dashy_conf.yml:/app/user-data/conf.yml
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-  casa:
-    image: dockurr/casa
-    container_name: casa
-    ports:
-      - 8889:8080
-    volumes:
-      - /home/mate/randomfiles/casa:/DATA
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
-    stop_grace_period: 1m
-
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
@@ -177,18 +165,6 @@ services:
       - 5055:5055
     restart: unless-stopped
 
-
-  vaultwarden:
-    image: vaultwarden/server:latest
-    container_name: vaultwarden
-    restart: unless-stopped
-    environment:
-      DOMAIN: "https://vw.domain.tld"
-    volumes:
-      - /home/mate/randomfiles/vw-data/:/data/
-    ports:
-      - 127.0.0.1:8000:80
-
   nextcloud-aio-mastercontainer:
     image: nextcloud/all-in-one:latest
     container_name: nextcloud-aio-mastercontainer
@@ -210,6 +186,21 @@ volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
 
+
+
+
+  # vaultwarden:
+  #   image: vaultwarden/server:latest
+  #   container_name: vaultwarden
+  #   restart: unless-stopped
+  #   environment:
+  #     DOMAIN: "https://vw.domain.tld"
+  #   volumes:
+  #     - /home/mate/randomfiles/vw-data/:/data/
+  #   ports:
+  #     - 127.0.0.1:8000:80
+  #
+  #
   # 7dtdserver:
   #   image: vinanrra/7dtd-server
   #   container_name: 7dtdserver
