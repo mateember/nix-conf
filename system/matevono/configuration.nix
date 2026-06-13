@@ -549,8 +549,66 @@
     rtkit.enable = true;
     pam.services.cosmic-greeter.enableGnomeKeyring = true;
     pam.services.cosmic-greeter.kwallet.enable = true;
-    sudo = {
+    doas = {
       enable = true;
+      extraRules = [
+        # Allow user 'mate' in the 'wheel' group to run specific commands without a password
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          keepEnv = true; # Optional: mimics sudo behavior by keeping environment variables
+          cmd = "${pkgs.systemd}/bin/systemctl";
+          args = ["suspend"];
+        }
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          cmd = "/run/current-system/sw/bin/tlp";
+        }
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          cmd = "/run/current-system/sw/bin/tlp-stat";
+        }
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          cmd = "${pkgs.systemd}/bin/reboot";
+        }
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          cmd = "${pkgs.systemd}/bin/poweroff";
+        }
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          cmd = "/run/current-system/sw/bin/tee";
+          args = ["/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"];
+        }
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          cmd = "/run/current-system/sw/bin/tee";
+          args = ["/sys/firmware/acpi/platform_profile"];
+        }
+        {
+          users = ["mate"];
+          groups = ["wheel"];
+          noPass = true;
+          cmd = "/home/mate/scripts/winapps/bin/winapps";
+        }
+      ];
+    };
+    sudo = {
+      enable = false;
       extraRules = [
         {
           commands = [
