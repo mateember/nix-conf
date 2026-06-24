@@ -7,6 +7,7 @@
   hyprdynamicmonitors,
   hyprshutdown,
   astal,
+  brave-origin,
   nmrs,
   ...
 }: {
@@ -58,13 +59,14 @@
 
   home.packages =
     (with pkgs; [
-      dunst
+      # dunst
       git-credential-oauth
       ranger
       mesa-demos
       nmrs.packages.${pkgs.system}.default
       hyprdynamicmonitors.packages.${system}.default
       wlogout
+      brave-origin.packages.${pkgs.system}.default
       trash-cli
       pwvucontrol
       zenity

@@ -550,7 +550,7 @@
     pam.services.cosmic-greeter.enableGnomeKeyring = true;
     pam.services.cosmic-greeter.kwallet.enable = true;
     doas = {
-      enable = true;
+      enable = false;
       extraRules = [
         # Allow user 'mate' in the 'wheel' group to run specific commands without a password
         {
@@ -608,7 +608,7 @@
       ];
     };
     sudo = {
-      enable = false;
+      enable = true;
       extraRules = [
         {
           commands = [
