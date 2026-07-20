@@ -666,6 +666,7 @@
   fonts = {
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
+      corefonts
       nerd-fonts.fira-code
       cantarell-fonts
       roboto
