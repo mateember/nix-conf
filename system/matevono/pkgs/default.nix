@@ -3,7 +3,7 @@
   lib,
   pkgs,
   pkgs-unstable,
-  hyprland,
+  # hyprland,
   winapps,
   inputs,
   ...

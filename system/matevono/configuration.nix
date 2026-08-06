@@ -4,7 +4,7 @@
   pkgs,
   pkgs-unstable,
   # nixos-cosmic,
-  hyprland,
+  # hyprland,
   ...
 }: {
   imports = [
@@ -379,6 +379,16 @@
     strongswan = {
       enable = true;
     };
+
+    howdy = {
+      enable = false;
+      settings = {
+        video = {
+          device_path = "/dev/video1";
+        };
+      };
+    };
+
     usbmuxd.enable = true;
 
     syncthing = {

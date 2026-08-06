@@ -71,7 +71,7 @@
       pwvucontrol
       zenity
       nwg-look
-      nwg-panel
+      # nwg-panel
       pyenv
       wtype
       ookla-speedtest

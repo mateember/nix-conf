@@ -132,7 +132,7 @@
               #inherit pkgs;
               inherit pkgs-unstable;
               inherit zen-browser;
-              inherit hyprland;
+              # inherit hyprland;
               inherit hyprdynamicmonitors;
               inherit brave-origin;
               inherit astal;
@@ -145,7 +145,7 @@
           inherit pkgs-unstable;
           inherit inputs;
           inherit zen-browser;
-          inherit hyprland;
+          # inherit hyprland;
           inherit winapps;
         };
       };
