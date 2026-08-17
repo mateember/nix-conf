@@ -96,7 +96,6 @@
       neovim
       kdePackages.kolourpaint
       celluloid
-      openboard
       fastfetch
       distrobox
       wl-clipboard
