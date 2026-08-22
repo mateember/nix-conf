@@ -24,6 +24,7 @@
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    iloader.url = "github:nab138/iloader";
     winapps = {
       url = "github:winapps-org/winapps";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -56,6 +57,7 @@
     nixos-hardware,
     brave-origin,
     nmrs,
+    iloader,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -137,6 +139,7 @@
               inherit brave-origin;
               inherit astal;
               inherit nmrs;
+              inherit iloader;
             };
           }
         ];

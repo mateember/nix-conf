@@ -9,6 +9,7 @@
   astal,
   brave-origin,
   nmrs,
+  iloader,
   ...
 }: {
   programs = {
@@ -81,6 +82,7 @@
       xkill
       xeyes
       kdePackages.gwenview
+      # iloader.packages.${pkgs.stdenv.hostPlatform.system}.default
       #ghostty.packages."${system}".default
     ])
     ++ (with pkgs-unstable; [

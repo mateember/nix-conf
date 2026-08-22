@@ -300,6 +300,7 @@
         "mate"
         "flatpak"
         "disk"
+        "dialout"
         "qemu"
         "kvm"
         "libvirtd"
