@@ -83,6 +83,7 @@
       starship
       polkit_gnome
       zoxide
+      socat
       kdePackages.qtstyleplugin-kvantum
       kdePackages.kdecoration
       fuse

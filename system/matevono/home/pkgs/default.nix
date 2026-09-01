@@ -88,6 +88,8 @@
     ++ (with pkgs-unstable; [
       vscode-fhs
       zed-editor-fhs
+      quickshell
+      qt6.qtdeclarative
       just
       # hpp2plantuml
       plantuml
