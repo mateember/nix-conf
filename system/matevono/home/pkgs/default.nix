@@ -7,7 +7,6 @@
   hyprdynamicmonitors,
   hyprshutdown,
   astal,
-  brave-origin,
   nmrs,
   iloader,
   ...
@@ -67,7 +66,6 @@
       nmrs.packages.${pkgs.system}.default
       hyprdynamicmonitors.packages.${system}.default
       wlogout
-      brave-origin.packages.${pkgs.system}.default
       trash-cli
       pwvucontrol
       zenity
@@ -96,7 +94,7 @@
       yt-dlp
       sunshine
       uxplay
-      brave
+      brave-origin
       neovim
       kdePackages.kolourpaint
       celluloid

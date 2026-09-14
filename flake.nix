@@ -16,7 +16,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    brave-origin.url = "github:Daniel-42-z/brave-origin-flake";
     omarchy-nix = {
       url = "github:henrysipp/omarchy-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,7 +54,6 @@
     ags,
     astal,
     nixos-hardware,
-    brave-origin,
     nmrs,
     iloader,
     ...
@@ -136,7 +134,6 @@
               inherit zen-browser;
               # inherit hyprland;
               inherit hyprdynamicmonitors;
-              inherit brave-origin;
               inherit astal;
               inherit nmrs;
               inherit iloader;
