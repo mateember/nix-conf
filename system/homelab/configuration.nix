@@ -75,7 +75,7 @@
       enable = true;
       allowPing = true;
       trustedInterfaces = [];
-      allowedTCPPorts = [443 61208];
+      allowedTCPPorts = [443 61208 631];
       allowedUDPPorts = [];
       allowedTCPPortRanges = [
         # {from = 26910; to = 26912; }
@@ -310,6 +310,64 @@
     vscode-server.enable = true;
     fail2ban.enable = true;
 
+
+    printing = {
+    enable = true;
+    listenAddresses = [ "*:631" ]; # Listen on all interfaces for AirPrint clients
+			webInterface = true;          # Enables the CUPS web management interface
+    allowFrom = [ "all" ];        # Allow local subnet clients to submit jobs
+    defaultShared = true;         # Share printers by default
+browsing = false;
+
+
+			extraConf = ''
+				DefaultPaperSize A4
+				'';
+    # Driver support for Epson EcoTank / ESC/P-R series
+    drivers = with pkgs; [
+     epson-escpr 
+      gutenprint                  # Helpful fallback for older/standard inkjets
+				cups-filters
+    ];
+  };
+
+avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;          # Automatically opens UDP port 5353
+    publish = {
+      enable = true;
+      userServices = true;        # CUPS registers the IPP/AirPrint services here
+      addresses = true;
+    };
+			# extraServiceFiles = {
+  #   airprint = ''
+  #     <?xml version="1.0" standalone='no'?>
+  #     <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+  #     <service-group>
+  #       <name replace-wildcards="yes">AirPrint %h</name>
+  #       <service>
+  #         <type>_ipp._tcp</type>
+  #         <subtype>_universal._sub._ipp._tcp</subtype>
+  #         <port>631</port>
+  #         <txt-record>txtvers=1</txt-record>
+  #         <txt-record>qtotal=1</txt-record>
+  #         <txt-record>Transparent=T</txt-record>
+  #         <txt-record>Binary=T</txt-record>
+  #         <txt-record>Duplex=F</txt-record>
+  #         <txt-record>Color=T</txt-record>
+  #         <txt-record>rp=printers/EPSON_L3250</txt-record>
+  #         <txt-record>note=Epson EcoTank</txt-record>
+  #         <txt-record>product=(Epson)</txt-record>
+  #         <txt-record>printer-state=3</txt-record>
+  #         <txt-record>printer-type=0x801046</txt-record>
+  #         <txt-record>pdl=application/octet-stream,application/pdf,application/postscript,image/jpeg,image/png,image/urf</txt-record>
+  #         <txt-record>URF=W8,SRGB24,CP1,RS300-600</txt-record>
+  #       </service>
+  #     </service-group>
+  #   '';
+  # };
+  };
     jellyfin = {
       enable = false;
       openFirewall = true;
