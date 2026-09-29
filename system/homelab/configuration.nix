@@ -319,9 +319,9 @@
       browsing = false;
 
       extraConf = ''
-        DefaultPaperSize A4
-	ServerAlias homelab.tailba7efc.ts.net
-    ServerAlias *.ts.net
+               DefaultPaperSize A4
+        ServerAlias homelab.tailba7efc.ts.net
+           ServerAlias *.ts.net
       '';
       # Driver support for Epson EcoTank / ESC/P-R series
       drivers = with pkgs; [

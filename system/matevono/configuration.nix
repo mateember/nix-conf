@@ -425,7 +425,7 @@
     desktopManager.cosmic.enable = true;
     displayManager = {
       # sessionPackages = [hyprland.packages.${pkgs.system}.hyprland];
-      gdm.enable = true;
+      gdm.enable = false;
       ly = {
         enable = false;
         settings = {
@@ -436,7 +436,7 @@
         };
       };
 
-      cosmic-greeter.enable = false;
+      cosmic-greeter.enable = true;
 
       #defaultSession = "";
       sddm = {
@@ -675,12 +675,14 @@
   };
 
   fonts = {
+    fontDir.enable = true;
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
       corefonts
       nerd-fonts.fira-code
       cantarell-fonts
       roboto
+      liberation_ttf
       openmoji-color
     ];
 
