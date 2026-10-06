@@ -181,7 +181,7 @@
       tinycc
       netcat-openbsd
       rtl-sdr
-      gnuradio
+      # gnuradio
     ])
     ++ (with pkgs-unstable; [
       wl-clipboard-rs

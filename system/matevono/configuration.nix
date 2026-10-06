@@ -47,6 +47,8 @@
   nix = {
     settings = {
       auto-optimise-store = true;
+      cores = 0;
+      max-jobs = "auto";
       allowed-users = ["mate"];
       substituters = ["https://cosmic.cachix.org/" "https://hyprland.cachix.org" "https://winapps.cachix.org/" https://ags.cachix.org];
       trusted-substituters = ["https://hyprland.cachix.org" https://ags.cachix.org];
@@ -200,11 +202,12 @@
   #Networking
 
   networking = {
+    
     useDHCP = false;
     hostName = "matevono";
     networkmanager = {
       enable = true;
-
+      wifi.backend = "wpa_supplicant";
       plugins = [pkgs.networkmanager-strongswan];
     };
   };
@@ -500,7 +503,7 @@
       COSMIC_DATA_CONTROL_ENABLED = "1";
     };
     variables = {
-      QT_QPA_PLATFORMTHEME = "qt6ct";
+      QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
       EDITOR = "nvim";
       INTEL_DEBUG = "no32";
     };
