@@ -202,7 +202,6 @@
   #Networking
 
   networking = {
-    
     useDHCP = false;
     hostName = "matevono";
     networkmanager = {

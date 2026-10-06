@@ -17,8 +17,8 @@
   nix = {
     settings = {
       auto-optimise-store = true;
-max-jobs = "auto";
-			cores = 0;
+      max-jobs = "auto";
+      cores = 0;
       allowed-users = ["mate"];
     };
     gc = {
