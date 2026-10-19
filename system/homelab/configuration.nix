@@ -402,7 +402,10 @@
           locations."/" = {
             proxyPass = "http://127.0.0.1:11000"; # The port from your docker-compose
             proxyWebsockets = true;
-            extraConfig = ''limit_conn addr 20; '';
+            extraConfig = ''
+	    limit_conn addr 20;
+	client_max_body_size 5G;
+						'';
           };
         };
         "hl.kmate.org" = {
