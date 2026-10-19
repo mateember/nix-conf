@@ -30,7 +30,7 @@
     };
     hyprdynamicmonitors.url = "github:fiffeek/hyprdynamicmonitors";
     stylix = {
-      url = "github:nix-community/stylix/release-25.11";
+      url = "github:nix-community/stylix/";
     };
     ags.url = "github:Aylur/ags";
     astal.url = "github:aylur/astal";
@@ -126,6 +126,8 @@
                 stylix.homeModules.stylix
                 ags.homeManagerModules.default
               ]; # And this one
+                stylix.overlays.enable = false;
+
             };
             home-manager.backupFileExtension = "nixbk";
             home-manager.extraSpecialArgs = {
