@@ -675,6 +675,14 @@
               options = ["NOPASSWD"];
             }
             {
+              command = "/run/current-system/sw/bin/tee /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference";
+              options = ["NOPASSWD"];
+            }
+            {
+              command = "/home/mate/dotfiles/scripts/tlpmodes.sh";
+              options = ["NOPASSWD"];
+            }
+            {
               command = "/home/mate/scripts/winapps/bin/winapps";
               options = ["NOPASSWD"];
             }
