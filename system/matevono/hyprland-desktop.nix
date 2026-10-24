@@ -16,20 +16,10 @@
   # Hyprland reads ~/.config/hypr/hyprland.lua.
   programs.hyprland = {
     enable = true;
-    withUWSM = false;
+    withUWSM = true;
   };
 
-  # ---- Plain (non-UWSM) Hyprland sessions ------------------------------------
-  # A session started from the display manager as "Hyprland" (not "Hyprland (uwsm-managed)") never
-  # activates graphical-session.target, so xdg-desktop-portal (xdg-open with xdgOpenUsePortal, screen
-  # sharing, file pickers) and every service wantedBy it stay down. Hyprland's autostart
-  # (~/.config/hypr/scripts/session-target.sh) starts this target, which pulls the real one up.
-  systemd.user.targets.hyprland-session = {
-    description = "Hyprland session";
-    bindsTo = ["graphical-session.target"];
-    wants = ["graphical-session-pre.target"];
-    after = ["graphical-session-pre.target"];
-  };
+
 
   # ---- Lock screen ---------------------------------------------------------
   # hyprlock authenticates through the `hyprlock` PAM service (without it, it falls back to `su`).

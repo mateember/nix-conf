@@ -573,6 +573,8 @@
     # cosmic-greeter is implemented via greetd
     greetd.enableKwallet = true;
     # Fallbacks depending on cosmic-greeter's direct PAM service
+    gdm.enableKwallet = true;
+    gdm.kwallet.forceRun = true;
     cosmic-greeter.enableKwallet = true;
     cosmic-greeter.kwallet.forceRun = true;
     login.enableKwallet = true;
