@@ -568,10 +568,19 @@
   #Sudo
   security = {
     rtkit.enable = true;
-    pam.services.cosmic-greeter.enableGnomeKeyring = true;
-    pam.services.cosmic-greeter.kwallet.enable = true;
-    pam.services.cosmic-greeter.kwallet.forceRun = true;
-    pam.services.login.kwallet.enable = true;
+
+    pam.services = {
+    # cosmic-greeter is implemented via greetd
+    greetd.enableKwallet = true;
+    # Fallbacks depending on cosmic-greeter's direct PAM service
+    cosmic-greeter.enableKwallet = true;
+    cosmic-greeter.kwallet.forceRun = true;
+    login.enableKwallet = true;
+    login.kwallet.enable = true;
+    cosmic-greeter.enableGnomeKeyring = true;
+  };
+
+
     doas = {
       enable = false;
       extraRules = [
