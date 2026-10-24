@@ -348,6 +348,13 @@
         PCIE_ASPM_ON_AC = "performance";
         PCIE_ASPM_ON_BAT = "powersave";
         SOUND_POWER_SAVE_ON_AC = "0";
+        SOUND_POWER_SAVE_ON_BAT = "1";
+        SOUND_POWER_SAVE_CONTROLLER = "Y";
+        CPU_MIN_PERF_ON_BAT = 0;
+        CPU_MAX_PERF_ON_BAT = 100;
+        # Optional: force energy-saving bias for both core types
+        RUNTIME_PM_ON_BAT = "auto";
+        USB_AUTOSUSPEND = 1;
 
         #Optional helps save long term battery health
         #START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
@@ -362,7 +369,7 @@
       criticalPowerAction = "Hibernate";
     };
     gnome = {
-      gnome-keyring.enable = true;
+      gnome-keyring.enable = lib.mkForce false;
       gnome-browser-connector.enable = true;
       gnome-remote-desktop.enable = true;
     };
@@ -562,6 +569,8 @@
     rtkit.enable = true;
     pam.services.cosmic-greeter.enableGnomeKeyring = true;
     pam.services.cosmic-greeter.kwallet.enable = true;
+    pam.services.cosmic-greeter.kwallet.forceRun = true;
+    pam.services.login.kwallet.enable = true;
     doas = {
       enable = false;
       extraRules = [

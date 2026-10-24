@@ -126,8 +126,7 @@
                 stylix.homeModules.stylix
                 ags.homeManagerModules.default
               ]; # And this one
-                stylix.overlays.enable = false;
-
+              stylix.overlays.enable = false;
             };
             home-manager.backupFileExtension = "nixbk";
             home-manager.extraSpecialArgs = {

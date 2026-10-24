@@ -96,6 +96,9 @@
       uxplay
       brave-origin
       neovim
+      antigravity-cli
+      kiro-cli
+      # antigravity-ide-fhs
       kdePackages.kolourpaint
       celluloid
       fastfetch
@@ -106,6 +109,7 @@
       arduino-ide
       python3
       zellij
+      google-chrome
       # nwg-panel
 
       #Hyprland Stuff

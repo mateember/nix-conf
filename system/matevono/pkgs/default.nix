@@ -32,7 +32,7 @@
     fuse.userAllowOther = true;
     niri = {
       package = pkgs-unstable.niri;
-      enable = true;
+      enable = false;
       useNautilus = true;
     };
     gtklock = {
@@ -46,7 +46,7 @@
     };
     nm-applet.enable = false;
     hyprland = {
-      enable = false;
+      enable = true;
       xwayland.enable = true;
       # package = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       # portalPackage = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
@@ -152,6 +152,11 @@
       kdePackages.sddm
       kdePackages.sddm-kcm
 
+      kdePackages.kwalletmanager
+      kdePackages.kwallet
+      kdePackages.kwallet-pam
+      libsecret
+
       #Development packages
       file
       github-desktop
@@ -159,6 +164,7 @@
       llvm
       xterm
       clang
+      texliveMedium
       unzip
       gdb
       git
