@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ./pkgs
     ./extraconfig
+    ./hyprland-desktop.nix # Hyprland + Quickshell desktop (session, PAM, portals, shell deps)
   ];
 
   hardware = {
