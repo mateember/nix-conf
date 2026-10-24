@@ -14,7 +14,19 @@
   # Hyprland reads ~/.config/hypr/hyprland.lua.
   programs.hyprland = {
     enable = true;
-    withUWSM = true;
+    withUWSM = false;
+  };
+
+  # ---- Plain (non-UWSM) Hyprland sessions ------------------------------------
+  # A session started from the display manager as "Hyprland" (not "Hyprland (uwsm-managed)") never
+  # activates graphical-session.target, so xdg-desktop-portal (xdg-open with xdgOpenUsePortal, screen
+  # sharing, file pickers) and every service wantedBy it stay down. Hyprland's autostart
+  # (~/.config/hypr/scripts/session-target.sh) starts this target, which pulls the real one up.
+  systemd.user.targets.hyprland-session = {
+    description = "Hyprland session";
+    bindsTo = ["graphical-session.target"];
+    wants = ["graphical-session-pre.target"];
+    after = ["graphical-session-pre.target"];
   };
 
   # ---- Lock screen ---------------------------------------------------------
@@ -40,14 +52,7 @@
       NotShowIn=Hyprland;
       AutostartCondition=GNOME3 unless-session gnome
     '';
-    "autostart/nm-applet.desktop".text = ''
-      [Desktop Entry]
-      Type=Application
-      Name=NetworkManager Applet
-      Exec=nm-applet
-      NoDisplay=true
-      NotShowIn=KDE;GNOME;COSMIC;Hyprland;
-    '';
+  
   };
 
   # ---- KWallet -------------------------------------------------------------
