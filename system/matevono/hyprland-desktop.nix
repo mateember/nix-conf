@@ -87,6 +87,8 @@
     grim
     slurp
     swappy
+    wf-recorder
+    wl-screenrec
     # used by the shell
     playerctl
     brightnessctl
