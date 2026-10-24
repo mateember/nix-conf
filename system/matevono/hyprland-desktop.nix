@@ -27,6 +27,45 @@
   systemd.user.services.polkit-gnome-authentication-agent-1.unitConfig.ConditionEnvironment =
     "!XDG_CURRENT_DESKTOP=Hyprland";
 
+  # XDG autostart: UWSM runs XDG autostart entries in Hyprland. Hide the ones the shell replaces
+  # (user entries in ~/.config/autostart override the system ones by file name):
+  # polkit-gnome would take the polkit agent slot, nm-applet duplicates the shell's Wi-Fi menu.
+  home-manager.users.mate.xdg.configFile = {
+    "autostart/polkit-gnome-authentication-agent-1.desktop".text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=PolicyKit Authentication Agent
+      Exec=${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
+      NoDisplay=true
+      NotShowIn=Hyprland;
+      AutostartCondition=GNOME3 unless-session gnome
+    '';
+    "autostart/nm-applet.desktop".text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=NetworkManager Applet
+      Exec=nm-applet
+      NoDisplay=true
+      NotShowIn=KDE;GNOME;COSMIC;Hyprland;
+    '';
+  };
+
+  # ---- KWallet -------------------------------------------------------------
+  # PAM (cosmic-greeter/greetd) stores the login password; pam_kwallet_init must run inside the
+  # session to hand it to kwalletd. Its autostart entry has X-systemd-skip=true, so UWSM never
+  # starts it: run it as a user service for Hyprland sessions instead.
+  systemd.user.services.hyprland-kwallet-unlock = {
+    description = "Unlock KWallet with the login password (Hyprland)";
+    wantedBy = ["graphical-session.target"];
+    after = ["graphical-session.target"];
+    partOf = ["graphical-session.target"];
+    unitConfig.ConditionEnvironment = "XDG_CURRENT_DESKTOP=Hyprland";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init";
+    };
+  };
+
   # ---- Portals -------------------------------------------------------------
   # Hyprland portal for screen sharing, COSMIC's file chooser, KWallet for secrets (Flatpak apps).
   # Note: ~/.config/xdg-desktop-portal/hyprland-portals.conf overrides this file if it exists.
