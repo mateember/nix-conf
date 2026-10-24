@@ -8,6 +8,8 @@
   pkgs,
   ...
 }: {
+  imports = [./calendar-events.nix]; # calendar events in the shell's clock popup
+
   # ---- Session -------------------------------------------------------------
   # UWSM-managed session ("Hyprland (UWSM)" in cosmic-greeter). UWSM starts
   # graphical-session.target, which xdg-desktop-portal needs (screen sharing, file pickers).
