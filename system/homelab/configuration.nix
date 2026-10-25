@@ -77,8 +77,8 @@
       enable = true;
       allowPing = true;
       trustedInterfaces = [];
-      allowedTCPPorts = [443 61208 631];
-      allowedUDPPorts = [];
+      allowedTCPPorts = [443 61208 631 26000 16000 10809 3260 12049 10445];
+      allowedUDPPorts = [67 68 69 4011];
       allowedTCPPortRanges = [
         # {from = 26910; to = 26912; }
       ];

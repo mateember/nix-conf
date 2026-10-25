@@ -45,6 +45,21 @@ services:
       - /mnt/khdd/backup/torrents:/backups
     restart: unless-stopped
 
+  
+
+  iventoy:
+    image: szabis/iventoy:latest
+    container_name: iventoy
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    environment:
+      - AUTO_START=true
+    volumes:
+      - /home/mate/randomfiles/iventoy/data:/opt/iventoy/data
+      - /home/mate/randomfiles/iventoy/log:/opt/iventoy/log
+      - /home/mate/randomfiles/iventoy/iso:/opt/iventoy/iso
+
   dashy:
     image: lissy93/dashy:latest
     container_name: dashy
