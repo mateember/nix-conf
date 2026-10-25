@@ -65,7 +65,7 @@
       mesa-demos
       nmrs.packages.${pkgs.system}.default
       hyprdynamicmonitors.packages.${system}.default
-      wlogout
+      # wlogout  # replaced by the Quickshell power menu (hyprland-desktop.nix)
       trash-cli
       pwvucontrol
       zenity
@@ -114,13 +114,13 @@
 
       #Hyprland Stuff
       # hyprcursor
-      rofi
+      # rofi  # replaced by the Quickshell launcher
       # hyprsunset
       hyprlock
       # hypridle
       # hyprshot
-      awww
-      waybar
+      # awww  # replaced by the Quickshell wallpaper slideshow
+      # waybar  # replaced by the Quickshell bar
 
       # niri
       swayidle

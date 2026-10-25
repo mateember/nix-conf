@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ./pkgs
     ./extraconfig
+    ./hyprland-desktop.nix # Hyprland + Quickshell desktop (session, PAM, portals, shell deps)
   ];
 
   hardware = {
@@ -208,6 +209,7 @@
       enable = true;
       wifi.backend = "wpa_supplicant";
       plugins = [pkgs.networkmanager-strongswan];
+      dns = "systemd-resolved";
     };
   };
 
@@ -387,9 +389,9 @@
     #lactd.enable = true;
 
     strongswan = {
-      enable = true;
+      enable = false;
     };
-
+    strongswan-swanctl.enable = false;
     howdy = {
       enable = false;
       settings = {
@@ -398,6 +400,11 @@
         };
       };
     };
+    resolved = {
+    enable = true;
+    fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
+    dnssec = "allow-downgrade";
+  };
 
     usbmuxd.enable = true;
 
@@ -513,6 +520,15 @@
       EDITOR = "nvim";
       INTEL_DEBUG = "no32";
     };
+    etc."strongswan.conf".text = ''
+      charon-nm {
+        plugins {
+          include ${pkgs.strongswan}/etc/strongswan.d/charon/*.conf
+        }
+        # Megadjuk a Nix Store-ban lévő plugin könyvtárat
+        plugin_dir = ${pkgs.strongswan}/lib/ipsec/plugins
+      }
+    '';
   };
 
   virtualisation = {
@@ -567,10 +583,20 @@
   #Sudo
   security = {
     rtkit.enable = true;
-    pam.services.cosmic-greeter.enableGnomeKeyring = true;
-    pam.services.cosmic-greeter.kwallet.enable = true;
-    pam.services.cosmic-greeter.kwallet.forceRun = true;
-    pam.services.login.kwallet.enable = true;
+
+    pam.services = {
+      # cosmic-greeter is implemented via greetd
+      greetd.enableKwallet = true;
+      # Fallbacks depending on cosmic-greeter's direct PAM service
+      gdm.enableKwallet = true;
+      gdm.kwallet.forceRun = true;
+      cosmic-greeter.enableKwallet = true;
+      cosmic-greeter.kwallet.forceRun = true;
+      login.enableKwallet = true;
+      login.kwallet.enable = true;
+      cosmic-greeter.enableGnomeKeyring = true;
+    };
+
     doas = {
       enable = false;
       extraRules = [
@@ -660,6 +686,14 @@
             }
             {
               command = "/run/current-system/sw/bin/tee /sys/firmware/acpi/platform_profile";
+              options = ["NOPASSWD"];
+            }
+            {
+              command = "/run/current-system/sw/bin/tee /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference";
+              options = ["NOPASSWD"];
+            }
+            {
+              command = "/home/mate/dotfiles/scripts/tlpmodes.sh";
               options = ["NOPASSWD"];
             }
             {
