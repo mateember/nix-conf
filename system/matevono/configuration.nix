@@ -209,6 +209,7 @@
       enable = true;
       wifi.backend = "wpa_supplicant";
       plugins = [pkgs.networkmanager-strongswan];
+      dns = "systemd-resolved";
     };
   };
 
@@ -399,6 +400,11 @@
         };
       };
     };
+    resolved = {
+    enable = true;
+    fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
+    dnssec = "allow-downgrade";
+  };
 
     usbmuxd.enable = true;
 
