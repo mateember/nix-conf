@@ -388,9 +388,9 @@
     #lactd.enable = true;
 
     strongswan = {
-      enable = true;
+      enable = false;
     };
-
+    strongswan-swanctl.enable = false;
     howdy = {
       enable = false;
       settings = {
@@ -514,6 +514,15 @@
       EDITOR = "nvim";
       INTEL_DEBUG = "no32";
     };
+    etc."strongswan.conf".text = ''
+      charon-nm {
+        plugins {
+          include ${pkgs.strongswan}/etc/strongswan.d/charon/*.conf
+        }
+        # Megadjuk a Nix Store-ban lévő plugin könyvtárat
+        plugin_dir = ${pkgs.strongswan}/lib/ipsec/plugins
+      }
+    '';
   };
 
   virtualisation = {
@@ -570,18 +579,17 @@
     rtkit.enable = true;
 
     pam.services = {
-    # cosmic-greeter is implemented via greetd
-    greetd.enableKwallet = true;
-    # Fallbacks depending on cosmic-greeter's direct PAM service
-    gdm.enableKwallet = true;
-    gdm.kwallet.forceRun = true;
-    cosmic-greeter.enableKwallet = true;
-    cosmic-greeter.kwallet.forceRun = true;
-    login.enableKwallet = true;
-    login.kwallet.enable = true;
-    cosmic-greeter.enableGnomeKeyring = true;
-  };
-
+      # cosmic-greeter is implemented via greetd
+      greetd.enableKwallet = true;
+      # Fallbacks depending on cosmic-greeter's direct PAM service
+      gdm.enableKwallet = true;
+      gdm.kwallet.forceRun = true;
+      cosmic-greeter.enableKwallet = true;
+      cosmic-greeter.kwallet.forceRun = true;
+      login.enableKwallet = true;
+      login.kwallet.enable = true;
+      cosmic-greeter.enableGnomeKeyring = true;
+    };
 
     doas = {
       enable = false;

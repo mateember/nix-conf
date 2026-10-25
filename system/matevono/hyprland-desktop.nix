@@ -19,8 +19,6 @@
     withUWSM = true;
   };
 
-
-
   # ---- Lock screen ---------------------------------------------------------
   # hyprlock authenticates through the `hyprlock` PAM service (without it, it falls back to `su`).
   security.pam.services.hyprlock = {};
@@ -28,8 +26,7 @@
   # ---- Polkit --------------------------------------------------------------
   # The shell is the polkit agent in Hyprland. Keep polkit-gnome (defined in configuration.nix,
   # started with graphical-session.target) for the other desktops only.
-  systemd.user.services.polkit-gnome-authentication-agent-1.unitConfig.ConditionEnvironment =
-    "!XDG_CURRENT_DESKTOP=Hyprland";
+  systemd.user.services.polkit-gnome-authentication-agent-1.unitConfig.ConditionEnvironment = "!XDG_CURRENT_DESKTOP=Hyprland";
 
   # XDG autostart: UWSM runs XDG autostart entries in Hyprland. Hide the ones the shell replaces
   # (user entries in ~/.config/autostart override the system ones by file name):
@@ -44,7 +41,6 @@
       NotShowIn=Hyprland;
       AutostartCondition=GNOME3 unless-session gnome
     '';
-  
   };
 
   # ---- KWallet -------------------------------------------------------------

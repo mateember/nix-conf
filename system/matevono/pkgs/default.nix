@@ -82,6 +82,8 @@
       gfortran
       starship
       polkit_gnome
+      strongswan
+      networkmanager-strongswan
       zoxide
       socat
       kdePackages.qtstyleplugin-kvantum
