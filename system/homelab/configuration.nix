@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ./nixld.nix
     ./configs/nginx_block.nix
+    ./configs/csumpi-backup.nix
   ];
 
   nix = {

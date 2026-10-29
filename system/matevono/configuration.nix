@@ -41,6 +41,9 @@
         vpl-gpu-rt
         intel-media-driver
         intel-vaapi-driver
+	intel-compute-runtime     # OpenCL / Level-Zero support for Arc GPU
+      level-zero                # Low-overhead hardware API
+      openvino
       ];
     };
   };
@@ -76,7 +79,6 @@
     extraModulePackages = with config.boot.kernelPackages; [xone v4l2loopback xpadneo acpi_call];
     blacklistedKernelModules = ["xpad"];
     initrd.kernelModules = ["xe"];
-    initrd.systemd.enable = true;
     kernelParams = [
       "splash"
       "drm.edid_firmware=eDP-1:edid/customedid.bin"
@@ -316,6 +318,7 @@
         "wheel"
         "audio"
         "video"
+	"render"
         "libvirtd"
         "dialout"
         "tty"

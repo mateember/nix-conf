@@ -94,10 +94,12 @@
       yt-dlp
       sunshine
       uxplay
+      lmstudio
       brave-origin
       neovim
       antigravity-cli
-      kiro-cli
+      antigravity-ide-fhs
+      # kiro-cli
       # antigravity-ide-fhs
       kdePackages.kolourpaint
       celluloid

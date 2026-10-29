@@ -132,7 +132,7 @@
       rclone
       edid-decode
       gnome-tweaks
-      texliveTeTeX
+      texliveFull
       nautilus-python
       winapps.packages."${system}".winapps
       winapps.packages."${system}".winapps-launcher # optional
