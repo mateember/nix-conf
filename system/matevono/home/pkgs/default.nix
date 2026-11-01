@@ -98,9 +98,8 @@
       brave-origin
       neovim
       antigravity-cli
-      antigravity-ide-fhs
       # kiro-cli
-      # antigravity-ide-fhs
+      antigravity-hub
       kdePackages.kolourpaint
       celluloid
       fastfetch
