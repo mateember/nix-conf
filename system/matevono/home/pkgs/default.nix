@@ -20,7 +20,7 @@
 
       extraPackages = let
         # Create a shorthand for the astal libraries
-        astalPkgs = astal.packages.${pkgs.system};
+        astalPkgs = astal.packages.${pkgs.stdenv.hostPlatform.system};
       in [
         # 1. Add the Astal Libraries individually
         astalPkgs.astal3
@@ -59,83 +59,96 @@
 
   home.packages =
     (with pkgs; [
-      # dunst
-      git-credential-oauth
+      # --- Desktop Utilities, Theming & GUI ---
       ranger
-      mesa-demos
-      nmrs.packages.${pkgs.system}.default
-      hyprdynamicmonitors.packages.${system}.default
-      # wlogout  # replaced by the Quickshell power menu (hyprland-desktop.nix)
       trash-cli
       pwvucontrol
       zenity
       nwg-look
-      # nwg-panel
-      pyenv
       wtype
+      xkill
+      xeyes
+      mesa-demos
+      kdePackages.gwenview
+      # dunst
+      # nwg-panel
+      # wlogout  # replaced by the Quickshell power menu (hyprland-desktop.nix)
+      # nmrs.packages.${pkgs.stdenv.hostPlatform.system}.default
+      # hyprdynamicmonitors.packages.${pkgs.stdenv.hostPlatform.system}.default
+      # iloader.packages.${pkgs.stdenv.hostPlatform.system}.default
+      #ghostty.packages."${system}".default
+
+      # --- Network & System Diagnostics ---
       ookla-speedtest
       arp-scan
       nitch
       jq
-      xkill
-      xeyes
-      kdePackages.gwenview
-      # iloader.packages.${pkgs.stdenv.hostPlatform.system}.default
-      #ghostty.packages."${system}".default
+
+      # --- Development & Authentication ---
+      git-credential-oauth
+      pyenv
     ])
     ++ (with pkgs-unstable; [
+      # --- Editors, IDEs & AI ---
+      neovim
       vscode-fhs
       zed-editor-fhs
-      quickshell
-      qt6.qtdeclarative
+      arduino-ide
+      lmstudio
+      antigravity-cli
+      antigravity-hub
+      # kiro-cli
+
+      # --- Terminal, Multiplexer & Shell Tools ---
+      zellij
+      fastfetch
       just
-      # hpp2plantuml
-      plantuml
+
+      # --- Web Browsers ---
+      google-chrome
+      brave-origin
+
+      # --- Media, Graphics & Streaming ---
+      celluloid
+      kdePackages.kolourpaint
       yt-dlp
       sunshine
       uxplay
-      lmstudio
-      brave-origin
-      neovim
-      antigravity-cli
-      # kiro-cli
-      antigravity-hub
-      kdePackages.kolourpaint
-      celluloid
-      fastfetch
-      distrobox
+      plantuml
+      # hpp2plantuml
+
+      # --- Desktop UI, Shell & Window Management (Quickshell / Wayland) ---
+      quickshell
+      qt6.qtdeclarative
       wl-clipboard
       brightnessctl
       cliphist
-      arduino-ide
+      distrobox
       python3
-      zellij
-      google-chrome
       # nwg-panel
 
-      #Hyprland Stuff
+      # --- Screen Lock & Idle Management ---
+      hyprlock
+      swayidle
+      swaylock-effects
+      sunsetr
       # hyprcursor
       # rofi  # replaced by the Quickshell launcher
       # hyprsunset
-      hyprlock
       # hypridle
       # hyprshot
       # awww  # replaced by the Quickshell wallpaper slideshow
       # waybar  # replaced by the Quickshell bar
 
-      # niri
-      swayidle
-      swaylock-effects
-      sunsetr
-
-      #gnome
+      # --- GNOME Extensions ---
       gnomeExtensions.ddterm
       gnomeExtensions.gsconnect
       gnomeExtensions.desktop-icons-ng-ding
-      #dev
+
+      # --- Web & Language Development Tooling ---
+      nodejs
       yarn
       tree-sitter
-      nodejs
     ]);
 
   services.kdeconnect.enable = true;

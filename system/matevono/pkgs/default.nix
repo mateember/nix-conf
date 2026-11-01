@@ -36,7 +36,7 @@
       useNautilus = true;
     };
     gtklock = {
-      enable = true;
+      enable = false;
       modules = with pkgs-unstable; [gtklock-playerctl-module gtklock-powerbar-module];
       package = pkgs-unstable.gtklock;
     };
@@ -72,151 +72,162 @@
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages =
     (with pkgs; [
+      # --- Core CLI & System Utilities ---
       vim
-      libnotify
-      wget
-      snixembed
       nano
-      tree
-      android-tools
-      gfortran
-      starship
-      polkit_gnome
-      strongswan
-      networkmanager-strongswan
-      zoxide
-      socat
-      kdePackages.qtstyleplugin-kvantum
-      kdePackages.kdecoration
-      fuse
-      sshfs-fuse
-      killall
-      pciutils
-      btop
-      kdePackages.plasma-integration
-      usbutils
-      acpi
-      lm_sensors
-      fzf
-      (octaveFull.withPackages (opkgs: with opkgs; [symbolic control io signal]))
-      podman-tui
-      ddcutil
-      rar
-      dive
-      efibootmgr
-      podman-compose
-      ventoy
-      kdePackages.extra-cmake-modules
-      uv
-      pavucontrol
-      kdePackages.dolphin
-      kdePackages.kwalletmanager
-      nautilus
-      appimage-run
-      evince
-      alsa-utils
-      dig
-      playerctl
-      pamixer
+      wget
+      curl
       which
+      file
+      tree
+      ripgrep
+      fd
+      fzf
+      zoxide
+      starship
+      btop
+      killall
       lsof
+      rclone
+      unzip
+      rar
+      ventoy
+
+      # --- Hardware Diagnostics, Monitoring & Low-level ---
+      pciutils
+      usbutils
       lshw
       dmidecode
-      taler-sync
+      acpi
+      lm_sensors
+      ddcutil
+      edid-decode
+      efibootmgr
       v4l-utils
       libva-utils
-      icu
-      jellyfin-ffmpeg
-      gnome-boxes
-      qemu
-      rclone
-      edid-decode
-      gnome-tweaks
-      texliveFull
-      nautilus-python
-      winapps.packages."${system}".winapps
-      winapps.packages."${system}".winapps-launcher # optional
-      vlc
-      virt-viewer
-      spice
-      mutter
-      spice-gtk
-      spice-protocol
-      virtio-win
-      win-spice
-      gjs
-      ripgrep
-      libsixel
-      fd
-      #(callPackage ./sddm-bluish {}).sddm-bluish
-      #(callPackage ./sddm-sugarcandy {}).sddm-sugarcandy
-      sddm-sugar-dark
-      kdePackages.sddm
-      kdePackages.sddm-kcm
 
-      kdePackages.kwalletmanager
-      kdePackages.kwallet
-      kdePackages.kwallet-pam
+      # --- Networking, Security & Polkit ---
+      socat
+      netcat-openbsd
+      dig
+      strongswan
+      networkmanager-strongswan
+      polkit_gnome
       libsecret
 
-      #Development packages
-      file
-      github-desktop
-      valgrind
-      llvm
-      xterm
-      clang
-      texliveMedium
-      unzip
-      gdb
+      # --- Virtualization, Containers & Windows Emulation ---
+      qemu
+      gnome-boxes
+      virt-viewer
+      virtio-win
+      spice
+      spice-gtk
+      spice-protocol
+      win-spice
+      winapps.packages."${pkgs.stdenv.hostPlatform.system}".winapps
+      winapps.packages."${pkgs.stdenv.hostPlatform.system}".winapps-launcher # optional
+      podman-compose
+      podman-tui
+      dive
+      appimage-run
+
+      # --- Audio, Video & Codecs ---
+      alsa-utils
+      pavucontrol
+      pamixer
+      playerctl
+      vlc
+      jellyfin-ffmpeg
+      sox
+
+      # --- Desktop & GUI Integration (KDE / GNOME / Hyprland) ---
+      nautilus
+      nautilus-python
+      gnome-tweaks
+      evince
+      snixembed
+      libnotify
+      mutter
+      gjs
+      libsixel
+      kdePackages.dolphin
+      kdePackages.plasma-integration
+      kdePackages.qtstyleplugin-kvantum
+      kdePackages.kdecoration
+      kdePackages.kwallet
+      kdePackages.kwalletmanager
+      kdePackages.kwallet-pam
+      kdePackages.extra-cmake-modules
+      sddm-sugar-dark
+      #(callPackage ./sddm-bluish {}).sddm-bluish
+      #(callPackage ./sddm-sugarcandy {}).sddm-sugarcandy
+      fuse
+      sshfs-fuse
+      icu
+      taler-sync
+
+      # --- Development Tools, Compilers & Libraries ---
       git
       lazygit
-      cmake
+      nix-prefetch-git
       gcc
       gnumake
+      cmake
+      clang
+      llvm
+      lld
+      gdb
+      valgrind
       flex
       bison
-      lld
       elfutils
-      nix-prefetch-git
-      curl
+      tinycc
       libxml2
+      uv
+      gfortran
+      (octaveFull.withPackages (opkgs: with opkgs; [symbolic control io signal]))
+      texliveFull
+      xterm
       man-pages
       man-pages-posix
 
-      #Default
-      sox
-      tinycc
-      netcat-openbsd
+      # --- SDR & Radio ---
       rtl-sdr
       # gnuradio
     ])
     ++ (with pkgs-unstable; [
-      wl-clipboard-rs
-      bat
-      libimobiledevice
-      idevicerestore
-      ifuse
+      # --- Terminals & CLI Utilities ---
+      kitty
       ghostty
-      xwayland-satellite
       kdePackages.konsole
+      bat
+      tldr
+      bc
+      geekbench
+
+      # --- Wayland, Desktop & Qt Theming ---
+      wl-clipboard-rs
+      xwayland-satellite
+      qt6Packages.qt6ct
+      kdePackages.kirigami
       kdePackages.okular
       #lact
       #kdePackages.polkit-kde-agent-1
-      kdePackages.kirigami
-      kitty
-      mangohud
       #alacritty
-      github-desktop
+
+      # --- Applications, Browsers & Remote Access ---
       firefox
-      tldr
+      github-desktop
       freerdp
-      bc
-      android-tools
-      geekbench
+      mangohud
       # jetbrains.clion
       # jetbrains.pycharm-professional
-      qt6Packages.qt6ct
+
+      # --- Mobile Device Tools (Apple & Android) ---
+      android-tools
+      libimobiledevice
+      idevicerestore
+      ifuse
     ]);
 
   environment.gnome.excludePackages = with pkgs; [

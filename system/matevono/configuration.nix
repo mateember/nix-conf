@@ -405,8 +405,12 @@
     };
     resolved = {
       enable = true;
-      fallbackDns = ["1.1.1.1" "8.8.8.8"];
-      dnssec = "allow-downgrade";
+      settings = {
+        Resolve = {
+          FallbackDNS = ["1.1.1.1" "8.8.8.8"];
+          DNSSEC = "allow-downgrade";
+        };
+      };
     };
 
     usbmuxd.enable = true;
@@ -481,9 +485,6 @@
 
     printing.enable = true;
     printing.drivers = [pkgs.epson-escpr];
-
-    avahi.publish.enable = true;
-    avahi.publish.userServices = true;
   };
 
   # Open ports in the firewall.
