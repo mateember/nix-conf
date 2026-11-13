@@ -29,7 +29,7 @@
     };
 
     thunar = {
-      enable = true;
+      enable = false;
       plugins = with pkgs-unstable; [
         thunar-archive-plugin
         thunar-vcs-plugin
@@ -88,14 +88,19 @@
       # --- Desktop & GUI Integration (KDE / GNOME / Hyprland) ---
       nautilus
       nautilus-python
-      gnome-tweaks
+      file-roller
+      snapshot
+      gnome-disk-utility
+      baobab
+      gnome-control-center
       evince
       snixembed
       libnotify
-      mutter
-      gjs
       libsixel
-      kdePackages.dolphin
+      # gnome-tweaks
+      # mutter
+      # gjs
+      # kdePackages.dolphin
       kdePackages.plasma-integration
       kdePackages.qtstyleplugin-kvantum
       kdePackages.kdecoration
@@ -154,6 +159,7 @@
 
       # --- Applications, Browsers & Remote Access ---
       firefox
+      brave-origin
       github-desktop
       freerdp
       mangohud

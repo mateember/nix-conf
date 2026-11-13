@@ -52,9 +52,13 @@ in {
   # ---- Display Manager, Desktops & PipeWire ---------------------------------
   services = {
     gnome = {
+      evolution-data-server.enable = true;
+      gnome-online-accounts.enable = true;
+      glib-networking.enable = true;
+      sushi.enable = true;
       gnome-keyring.enable = lib.mkForce false;
-      gnome-browser-connector.enable = true;
-      gnome-remote-desktop.enable = true;
+      gnome-browser-connector.enable = false;
+      gnome-remote-desktop.enable = false;
     };
 
     flatpak.enable = true;
@@ -73,7 +77,7 @@ in {
 
     xserver.enable = true;
     desktopManager.plasma6.enable = false;
-    desktopManager.gnome.enable = true;
+    desktopManager.gnome.enable = false;
     desktopManager.cosmic.enable = true;
     displayManager = {
       gdm.enable = false;
@@ -89,10 +93,64 @@ in {
     tumbler.enable = true;
   };
 
+  # ---- Howdy Facial Authentication & IR Emitter -----------------------------
+  services.linux-enable-ir-emitter = {
+    enable = true;
+    package = pkgs-unstable.linux-enable-ir-emitter;
+    device = "video2";
+  };
+
+  services.howdy = {
+    enable = true;
+    package = pkgs-unstable.howdy;
+    control = "sufficient";
+    settings = {
+      core = {
+        abort_if_ssh = true;
+        abort_if_lid_closed = true;
+        detection_notice = false;
+        timeout_notice = true;
+      };
+      video = {
+        # Stable by-path link to the integrated IR camera (/dev/video2, 640x360 GREY)
+        device_path = "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:9:1.2-video-index0";
+        frame_width = 640;
+        frame_height = 360;
+        max_height = 320;
+        # Lower = stricter/more secure (scale 1-10, distance * 10; 3.5 is upstream default)
+        certainty = 3.5;
+        # 3s gives the camera time to wake from USB autosuspend without delaying password fallback
+        timeout = 3;
+        # Higher threshold (default 60) prevents false "too dark" skips in dark rooms where
+        # only the face is IR-lit and the background is black, while still aborting at ~100% (closed shutter)
+        dark_threshold = 75;
+      };
+    };
+  };
+
   # ---- Lock Screen, Polkit & KWallet PAM ------------------------------------
+  # Disable global Howdy PAM injection so initial login (cosmic-greeter/greetd/login)
+  # still requires a password and properly unlocks KWallet via pam_kwallet5.
+  security.pam.howdy = {
+    enable = false;
+    control = "sufficient";
+  };
+
   # hyprlock authenticates through the `hyprlock` PAM service (without it, it falls back to `su`).
   security.pam.services = {
-    hyprlock = {};
+    # Quickshell lock screen (~/dotfiles/config/quickshell/lock). Two stacks run in parallel:
+    # qs-lock is password only (pam_unix), so typing a password never waits for the face scan;
+    # qs-lock-face adds Howdy in front of pam_unix.
+    qs-lock = {};
+    qs-lock-face.howdy.enable = true;
+
+    hyprlock.howdy.enable = true;
+    swaylock.howdy.enable = true;
+    sudo.howdy.enable = true;
+    su.howdy.enable = true;
+    polkit-1.howdy.enable = true;
+    systemd-run0.howdy.enable = true;
+
     # cosmic-greeter is implemented via greetd
     greetd.enableKwallet = true;
     # Fallbacks depending on cosmic-greeter's direct PAM service
@@ -141,6 +199,15 @@ in {
         Type = "oneshot";
         ExecStart = "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init";
       };
+    };
+
+    # hypridle runs as the user service from its package (services.hypridle below). The module sets
+    # the unit's PATH to hyprland/hyprlock/procps only; hypridle.conf and hypr/scripts/lock.sh also
+    # need qs, playerctl, busctl etc., so add the system and user profiles. Hyprland sessions only
+    # (it used to be started by Hyprland's autostart; niri sessions don't use it).
+    hypridle = {
+      path = ["/etc/profiles/per-user/mate" "/run/current-system/sw"];
+      unitConfig.ConditionEnvironment = "XDG_CURRENT_DESKTOP=Hyprland";
     };
   };
 
@@ -224,12 +291,14 @@ in {
   };
 
   # ---- Shell Runtime Dependencies -------------------------------------------
+  # Idle daemon as a systemd user service (started by graphical-session.target via UWSM).
+  services.hypridle.enable = true;
+
   # quickshell itself is in home.nix (pkgs-unstable).
   environment.systemPackages =
     [hcs-calendar-events]
     ++ (with pkgs; [
-      # Hyprland tools
-      hypridle
+      # Hyprland tools (hypridle comes from services.hypridle)
       hyprsunset
       hyprshot
       hyprpicker # color picker (SUPER SHIFT P)

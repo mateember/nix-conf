@@ -3,8 +3,24 @@
   lib,
   pkgs,
   pkgs-unstable,
+  t3code,
   ...
-}: {
+}: let
+  # Wrap pre-built quickshell with qtmultimedia (native video/APNG wallpapers)
+  # and qtimageformats (animated WebP decoding) without recompiling Quickshell.
+  quickshellWithMedia = pkgs-unstable.symlinkJoin {
+    name = "quickshell-with-media";
+    paths = [pkgs-unstable.quickshell];
+    nativeBuildInputs = [pkgs-unstable.makeWrapper];
+    postBuild = ''
+      for bin in $out/bin/qs $out/bin/quickshell; do
+        [ -e "$bin" ] && wrapProgram "$bin" \
+          --prefix QT_PLUGIN_PATH : "${pkgs-unstable.qt6.qtmultimedia}/lib/qt-6/plugins:${pkgs-unstable.qt6.qtimageformats}/lib/qt-6/plugins" \
+          --prefix NIXPKGS_QT6_QML_IMPORT_PATH : "${pkgs-unstable.qt6.qtmultimedia}/lib/qt-6/qml"
+      done
+    '';
+  };
+in {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
@@ -79,6 +95,9 @@
       lmstudio
       antigravity-cli
       antigravity-hub
+      kiro-fhs
+      opencode
+      t3code.packages.x86_64-linux.t3code-nightly
 
       # --- Terminal, Multiplexer & Shell Tools ---
       zellij
@@ -98,7 +117,7 @@
       plantuml
 
       # --- Desktop UI, Shell & Window Management (Quickshell / Wayland) ---
-      quickshell
+      quickshellWithMedia
       qt6.qtdeclarative
       wl-clipboard
       brightnessctl
@@ -113,9 +132,9 @@
       sunsetr
 
       # --- GNOME Extensions ---
-      gnomeExtensions.ddterm
-      gnomeExtensions.gsconnect
-      gnomeExtensions.desktop-icons-ng-ding
+      # gnomeExtensions.ddterm
+      # gnomeExtensions.gsconnect
+      # gnomeExtensions.desktop-icons-ng-ding
 
       # --- Web & Language Development Tooling ---
       nodejs

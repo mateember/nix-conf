@@ -83,7 +83,8 @@
     kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = with config.boot.kernelPackages; [xone v4l2loopback xpadneo acpi_call];
     blacklistedKernelModules = ["xpad"];
-    initrd.kernelModules = ["xe"];
+    initrd.kernelModules = ["i915"];
+    # initrd.kernelModules = ["xe"]; # xe: re-enable once stable on Meteor Lake (see kernelParams)
     kernelParams = [
       "splash"
       "drm.edid_firmware=eDP-1:edid/customedid.bin"
@@ -91,15 +92,15 @@
       "video=eDP-1:e"
 
       # 1. Switch from i915 to Xe
-      "i915.force_probe=!*"
-      "xe.force_probe=*"
+      # Disabled: xe on Meteor Lake causes "TLB invalidation fence timeout"
+      # desktop freezes (0.5-1.5s). Re-enable (and initrd "xe") once xe is stable on MTL.
+      # "i915.force_probe=!*"
+      # "xe.force_probe=*"
 
       # 2. Disable PSR for both (Safe to keep both for transitions)
       "i915.enable_psr=0"
-      "xe.enable_psr=0"
-      "iommu.strict=1"
+      # "xe.enable_psr=0"
       "iommu.passthrough=1"
-      "i915.dmc_firmware_path=\"\""
     ];
 
     kernelModules = ["i2c-dev"];
@@ -195,7 +196,7 @@
         ProtectSystem = lib.mkForce "no";
         PrivateTmp = lib.mkForce false;
       };
-      gnome-remote-desktop.wantedBy = ["graphical.target"];
+      # gnome-remote-desktop.wantedBy = ["graphical.target"];
       virtqemud.serviceConfig.TimeoutStopSec = "5s";
       virtnetworkd.serviceConfig.TimeoutStopSec = "5s";
 

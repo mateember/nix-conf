@@ -16,6 +16,10 @@
     };
 
     vscode-server.url = "github:nix-community/nixos-vscode-server";
+    t3code = {
+      url = "github:rodeyseijkens/t3code-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = {
@@ -24,6 +28,7 @@
     home-manager,
     vscode-server,
     winapps,
+    t3code,
     ...
   }: let
     system = "x86_64-linux";
@@ -49,6 +54,7 @@
               users.mate = import ./hosts/matevono/home.nix;
               extraSpecialArgs = {
                 inherit pkgs-unstable;
+									inherit t3code;
               };
             };
           }
